@@ -1,0 +1,25 @@
+{
+    "name": "phergie/phergie-irc-plugin-react-bridge",
+    "description": "Phergie plugin for providing the ability to send and receive IRC messages via middleware",
+    "keywords": [ "phergie", "irc", "bot", "plugin" ],
+    "license": "BSD-2-Clause",
+    "support": {
+        "email": "team@phergie.org",
+        "irc": "irc://irc.freenode.net/phergie",
+        "issues": "https://github.com/phergie/phergie-irc-plugin-react-bridge/issues",
+        "source": "https://github.com/phergie/phergie-irc-plugin-react-bridge"
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "phergie/phergie-irc-bot-react": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*",
+        "phake/phake": "2.0.0-beta2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Phergie\\Irc\\Plugin\\React\\Bridge\\": "src"
+        }
+    }
+}
