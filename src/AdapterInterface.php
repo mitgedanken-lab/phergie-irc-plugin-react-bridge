@@ -26,13 +26,13 @@ use Phergie\Irc\Event\EventInterface;
  * via pull or push mechanisms. As such, adapter classes must be able to
  * asynchronously receive and pass events to the Plugin class. They do this
  * by implementing EventEmitterAwareInterface to receive an event emitter and
- * using it to emit a "bridge.received" event with a single parameter, an
- * instance of \Phergie\Irc\Plugin\React\Bridge\BridgeEvent. This class is a
- * container for two values: an object implementing
- * \Phergie\Irc\Event\EventInterface that represents the event to be sent and a
- * connection mask representing one or more connections to which the event will
- * be sent. The Plugin class listens for this event and executes an equivalent
- * IRC command for the event object.
+ * using it to emit an event (the name of which is returned by the adapter's
+ * getEventName() method) with a single parameter, an instance of
+ * \Phergie\Irc\Plugin\React\Bridge\BridgeEvent. This class is a container for
+ * two values: an object implementing \Phergie\Irc\Event\EventInterface that
+ * represents the event to be sent and a connection mask representing one or
+ * more connections to which the event will be sent. The Plugin class listens
+ * for this event and executes an equivalent IRC command for the event object.
  *
  * Adapter classes must also implement the sendEvent() method included in this
  * interface in order to enable the Plugin class to send events it receives to
@@ -54,4 +54,12 @@ interface AdapterInterface extends EventEmitterAwareInterface
      * @param \Phergie\Irc\Event\EventInterface
      */
     public function sendEvent(EventInterface $event);
+
+    /**
+     * Returns the name of the event that the adapter emits when it receives an
+     * event from the middleware.
+     *
+     * @return string
+     */
+    public function getEventName();
 }

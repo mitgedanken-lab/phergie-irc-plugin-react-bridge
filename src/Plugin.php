@@ -80,7 +80,7 @@ class Plugin extends AbstractPlugin implements LoopAwareInterface
     public function getSubscribedEvents()
     {
         return array(
-            'bridge.received' => 'sendToServer',
+            $this->adapter->getEventName() => 'sendToServer',
             'irc.received.each' => 'sendToMiddleware',
             'irc.received.rpl_endofmotd' => 'getEventQueue',
             'irc.received.err_nomotd' => 'getEventQueue',
