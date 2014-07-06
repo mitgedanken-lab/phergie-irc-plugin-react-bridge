@@ -53,6 +53,13 @@ class Plugin extends AbstractPlugin implements LoopAwareInterface
     protected $queues;
 
     /**
+     * List of events to send to the adapter
+     *
+     * @var array
+     */
+    protected $events;
+
+    /**
      * Accepts plugin configuration.
      *
      * Supported keys:
@@ -60,11 +67,15 @@ class Plugin extends AbstractPlugin implements LoopAwareInterface
      * adapter - object implementing AdapterInterface used to send and receive
      * IRC events
      *
+     * events - array of strings containing names of events received by the
+     * server to be sent to the middleware
+     *
      * @param array $config
      */
     public function __construct(array $config = array())
     {
         $this->adapter = $this->getAdapter($config);
+        $this->events = $this->getEvents($config);
         $this->connections = array();
         $this->queues = array();
     }
@@ -79,12 +90,13 @@ class Plugin extends AbstractPlugin implements LoopAwareInterface
      */
     public function getSubscribedEvents()
     {
-        return array(
-            $this->adapter->getEventName() => 'sendToServer',
-            'irc.received.each' => 'sendToMiddleware',
-            'irc.received.rpl_endofmotd' => 'getEventQueue',
-            'irc.received.err_nomotd' => 'getEventQueue',
-        );
+        $events = array();
+        foreach ($this->events as $event) {
+            $events[$event] = 'sendToMiddleware';
+        }
+        $events[$this->adapter->getEventName()] = 'sendToServer';
+        $events['irc.sent.user'] = 'getEventQueue';
+        return $events;
     }
 
     /**
@@ -112,7 +124,7 @@ class Plugin extends AbstractPlugin implements LoopAwareInterface
 
     /**
      * Stores references to each connection and their corresponding event
-     * queues when a MOTD (message of the day) event is received.
+     * queues when a USER event is received.
      *
      * @param \Phergie\Irc\EventInterface $event
      * @param \Phergie\Irc\Bot\React\EventQueueInterface $queue
@@ -215,15 +227,38 @@ class Plugin extends AbstractPlugin implements LoopAwareInterface
      * @param array $config
      * @throws \DomainException adapter is not set or is not an object
      * implementing AdapterInterface
+     * @return \Phergie\Irc\Plugin\React\Bridge\AdapterInterface
      */
     protected function getAdapter(array $config)
     {
         if (!isset($config['adapter'])
             || !$config['adapter'] instanceof AdapterInterface) {
             throw new \DomainException(
-                'adapter must be an object implementing AdapterInterface'
+                '"adapter" must be an object implementing AdapterInterface'
             );
         }
         return $config['adapter'];
+    }
+
+    /**
+     * Extracts a list of events to send to the middleware adapter from
+     * configuration.
+     *
+     * @param array $config
+     * @throws \DomainException events is set and is not an array of strings
+     * @return array
+     */
+    protected function getEvents(array $config)
+    {
+        if (isset($config['events'])) {
+            if (!(is_array($config['events'])
+                && array_filter($config['events'], 'is_string') === $config['events'])) {
+                throw new \DomainException(
+                    '"events" must be an array of strings'
+                );
+            }
+            return $config['events'];
+        }
+        return array('irc.received.each');
     }
 }
