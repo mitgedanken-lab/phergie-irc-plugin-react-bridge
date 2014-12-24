@@ -160,7 +160,7 @@ class Plugin extends AbstractPlugin implements LoopAwareInterface
     public function sendToServer(BridgeEvent $bridgeEvent)
     {
         foreach ($this->getEventConnections($bridgeEvent) as $connection) {
-            $this->sendEvent($clone);
+            $this->sendEvent($bridgeEvent, $connection);
         }
     }
 
