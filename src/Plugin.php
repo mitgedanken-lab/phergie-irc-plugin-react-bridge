@@ -213,7 +213,7 @@ class Plugin extends AbstractPlugin implements LoopAwareInterface
      */
     protected function sendEvent(BridgeEvent $bridgeEvent, ConnectionInterface $connection)
     {
-        $event = $bridge->getEvent();
+        $event = $bridgeEvent->getEvent();
         $prefix = $event instanceof CtcpEventInterface ? 'ctcp' : 'irc';
         $method = $prefix . $event->getCommand();
         $mask = $this->getConnectionMask($connection);
