@@ -12,6 +12,10 @@ The recommended method of installation is [through composer](http://getcomposer.
 composer require phergie/phergie-irc-plugin-react-bridge:dev-master
 ```
 
+:exclamation: This plugin requires `Phergie Irc Bot React` version less than 2
+and greater than 1.0. These are old versions of the bot core and this plugin
+will probably require modifications to work with newer versions of the bot.
+
 See Phergie documentation for more information on
 [installing and enabling plugins](https://github.com/phergie/phergie-irc-bot-react/wiki/Usage#plugins).
 
