@@ -8,12 +8,8 @@
 
 The recommended method of installation is [through composer](http://getcomposer.org).
 
-```JSON
-{
-    "require": {
-        "phergie/phergie-irc-plugin-react-bridge": "dev-master"
-    }
-}
+```
+composer require phergie/phergie-irc-plugin-react-bridge:dev-master
 ```
 
 See Phergie documentation for more information on
