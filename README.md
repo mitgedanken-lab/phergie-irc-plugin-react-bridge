@@ -7,6 +7,8 @@
 ## Install
 
 The recommended method of installation is [through composer](http://getcomposer.org).
+Be advised you may need to set `minimum-stability` to `dev` to use this plugin.
+[Read about minimum-stability here](https://getcomposer.org/doc/04-schema.md#minimum-stability)
 
 ```
 composer require phergie/phergie-irc-plugin-react-bridge:dev-master
