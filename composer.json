@@ -1,4 +1,5 @@
 {
+    "abandoned": true,
     "name": "phergie/phergie-irc-plugin-react-bridge",
     "description": "Phergie plugin for providing the ability to send and receive IRC messages via middleware",
     "keywords": [ "phergie", "irc", "bot", "plugin" ],
